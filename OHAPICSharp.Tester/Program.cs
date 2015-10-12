@@ -20,7 +20,7 @@ namespace OHAPICSharp.Tester
         {
             var driveService = new OHDriveService();
             var drive = new OHDrive();
-            drive.Name = "oh-api-test";
+            drive.Name = "test";
             drive.Size = 536870912;
 
             return driveService.Create(drive).Result;
