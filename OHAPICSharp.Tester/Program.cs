@@ -11,9 +11,9 @@ namespace OHAPICSharp.Tester
     {
         static void Main(string[] args)
         {
-            var drives = GetAllDrives();
+            var response = CreateDrive();
 
-            Console.Write(drives[0].Name);
+            Console.Write(response.Name);
         }
 
         public static OHDrive CreateDrive()
