@@ -47,7 +47,8 @@ namespace OHAPICSharp
             foreach (var drive in driveList)
             {
                 string driveId = drive.uuid;
-                drives.Add(Get(driveId).Result);
+                var response = await Get(driveId);
+                drives.Add(response);
             }
 
             return drives;
