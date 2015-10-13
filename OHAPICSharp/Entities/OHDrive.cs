@@ -11,10 +11,13 @@ namespace OHAPICSharp
     {
         [JsonProperty(PropertyName = "drive")]
         public string DriveID { get; set; }
+        [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
+        [JsonProperty(PropertyName = "size")]
         public long Size { get; set; }
         [JsonProperty(PropertyName = "claimed")]
         public string Claim { get; set; }
+        [JsonProperty(PropertyName = "status")]
         public string Status { get; set; }
         [JsonProperty(PropertyName = "encryption:cipher")]
         public string Encryption { get; set; }

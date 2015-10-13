@@ -11,19 +11,14 @@ namespace OHAPICSharp.Tester
     {
         static void Main(string[] args)
         {
-            var response = CreateDrive();
-
-            Console.Write(response.Name);
-        }
-
-        public static OHDrive CreateDrive()
-        {
             var driveService = new OHDriveService();
-            var drive = new OHDrive();
-            drive.Name = "test";
-            drive.Size = 536870912;
+            var drive = driveService.Create("oh-api-test", 536870912).Result;
+            var delete = driveService.Destroy(drive.DriveID).Result;
 
-            return driveService.Create(drive).Result;
+            if (delete)
+                Console.WriteLine("Drive created and deleted");
+            else
+                Console.WriteLine("There was a problem");
         }
 
         public static List<OHDrive> GetAllDrives()
@@ -31,6 +26,23 @@ namespace OHAPICSharp.Tester
             var driveService = new OHDriveService();
 
             return driveService.GetAll().Result;
+        }
+
+        public static OHDrive CreateDrive()
+        {
+            var driveService = new OHDriveService();
+
+            return driveService.Create("oh-api-test", 536870912).Result;
+        }
+
+        public static bool DestroyDrive()
+        {
+            var driveService = new OHDriveService();
+            var drives = driveService.GetAll().Result;
+
+            var driveToDelete = drives.FirstOrDefault(x => x.Name == "oh-api-test");
+
+            return driveService.Destroy(driveToDelete.DriveID).Result;
         }
     }
 }

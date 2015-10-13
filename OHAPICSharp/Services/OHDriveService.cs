@@ -71,23 +71,20 @@ namespace OHAPICSharp
         }
 
         //Create a Drive 
-        public async Task<OHDrive> Create(OHDrive drive)
+        public async Task<OHDrive> Create(string name, long size)
         {
             string json = "";
-            var values = new Dictionary<string, string>();
+            var driveDict = new Dictionary<string, string>();
 
             //name and size are required
-            if (string.IsNullOrEmpty(drive.Name) || drive.Size == 0)
+            if (string.IsNullOrEmpty(name) || size == 0)
                 throw new Exception("Name and Size are required for drive creation");
 
-            values["name"] = drive.Name;
-            values["size"] = drive.Size.ToString();
-            if (drive.UserID != null)
-                values["user"] = drive.UserID;
-            if (drive.Encryption != null)
-                values["encryption:cipher"] = drive.Encryption;
-            
-            var content = new FormUrlEncodedContent(values);
+            driveDict["name"] = name;
+            driveDict["size"] = size.ToString();
+
+            json = JsonConvert.SerializeObject(driveDict);
+            var content = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
 
             using (HttpClient client = OHUtilities.CreateClient(userID, secretKey))
             {
@@ -97,6 +94,23 @@ namespace OHAPICSharp
             }
 
             return JsonConvert.DeserializeObject<OHDrive>(json);
+        }
+
+        //Delete a Drive 
+        public async Task<bool> Destroy(string driveID)
+        {
+            HttpResponseMessage response;
+
+            using (HttpClient client = OHUtilities.CreateClient(userID, secretKey))
+            {
+                var url = string.Format("{0}{1}/destroy", urlBase, driveID);
+                response = await client.PostAsync(url, null);
+            }
+
+            if (response.StatusCode == HttpStatusCode.NoContent)
+                return true;
+            else
+                return false;
         }
     }
 }
