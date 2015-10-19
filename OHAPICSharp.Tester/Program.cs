@@ -12,14 +12,13 @@ namespace OHAPICSharp.Tester
         static void Main(string[] args)
         {
             var driveService = new OHDriveService();
-            //var driveOptions = new OHDriveOptions();
-            //driveOptions.ClaimType = "exclusive";
-            //driveOptions.Encryption = "none";
-            //driveOptions.Tags = new[] { "newtest", "c-sharp-api-v2" };
-            //var drive = driveService.Create("oh-api-test", 536870912, driveOptions).Result;
+            var drive = driveService.Create("oh-api-test", 536870912).Result;
 
-            var drives = driveService.GetAll().Result;
-            var drive = drives.FirstOrDefault(x => x.Name == "oh-api-test");
+            var driveOptions = new OHDriveOptions();
+            driveOptions.Encryption = "none";
+            driveOptions.Tags = new[] { "newtest", "c-sharp-api-v2" };
+            drive = driveService.Set(drive.DriveID, drive.Name, 1073741824, driveOptions).Result;
+
             var delete = driveService.Destroy(drive.DriveID).Result;
 
             if (delete)

@@ -67,17 +67,7 @@ namespace OHAPICSharp
                 json = await response.Content.ReadAsStringAsync();
             }
 
-            var tempDrive = JsonConvert.DeserializeObject<dynamic>(json);
-            var drive = JsonConvert.DeserializeObject<OHDrive>(json);
-
-            if (tempDrive.readers != null)
-                drive.Readers = tempDrive.readers.ToString().Split(' ');
-            if (tempDrive.tags != null)
-                drive.Tags = tempDrive.tags.ToString().Split(' ');
-            if (tempDrive.avoid != null)
-                drive.Readers = tempDrive.avoid.ToString().Split(' ');
-
-            return drive;
+            return DeserializeDrive(json);
         }
 
         //Create a Drive 
@@ -107,7 +97,7 @@ namespace OHAPICSharp
                 json = await response.Content.ReadAsStringAsync();
             }
 
-            return JsonConvert.DeserializeObject<OHDrive>(json);
+            return DeserializeDrive(json);
         }
 
         //Set Drive options 
@@ -172,6 +162,21 @@ namespace OHAPICSharp
                 driveDict["encryption:cipher"] = driveOptions.Encryption;
 
             return driveDict;
+        }
+
+        private OHDrive DeserializeDrive(string json)
+        {
+            var tempDrive = JsonConvert.DeserializeObject<dynamic>(json);
+            var drive = JsonConvert.DeserializeObject<OHDrive>(json);
+
+            if (tempDrive.readers != null)
+                drive.Readers = tempDrive.readers.ToString().Split(' ');
+            if (tempDrive.tags != null)
+                drive.Tags = tempDrive.tags.ToString().Split(' ');
+            if (tempDrive.avoid != null)
+                drive.Readers = tempDrive.avoid.ToString().Split(' ');
+
+            return drive;
         }
     }
 }
