@@ -12,7 +12,14 @@ namespace OHAPICSharp.Tester
         static void Main(string[] args)
         {
             var driveService = new OHDriveService();
-            var drive = driveService.Create("oh-api-test", 536870912).Result;
+            //var driveOptions = new OHDriveOptions();
+            //driveOptions.ClaimType = "exclusive";
+            //driveOptions.Encryption = "none";
+            //driveOptions.Tags = new[] { "newtest", "c-sharp-api-v2" };
+            //var drive = driveService.Create("oh-api-test", 536870912, driveOptions).Result;
+
+            var drives = driveService.GetAll().Result;
+            var drive = drives.FirstOrDefault(x => x.Name == "oh-api-test");
             var delete = driveService.Destroy(drive.DriveID).Result;
 
             if (delete)
@@ -32,7 +39,21 @@ namespace OHAPICSharp.Tester
         {
             var driveService = new OHDriveService();
 
-            return driveService.Create("oh-api-test", 536870912).Result;
+            return driveService.Create("oh-api-test", 536870912, null).Result;
+        }
+
+        public static OHDrive SetDrive()
+        {
+            var driveService = new OHDriveService();
+
+            var driveOptions = new OHDriveOptions();
+            driveOptions.ClaimType = "exclusive";
+            driveOptions.Encryption = "none";
+            driveOptions.Tags = new[] { "newtest", "c-sharp-api-v2" };
+            var drives = driveService.GetAll().Result;
+            var drive = drives.FirstOrDefault(x => x.Name == "oh-api-test");
+
+            return driveService.Set(drive.DriveID, drive.Name, 1073741824, driveOptions).Result;
         }
 
         public static bool DestroyDrive()

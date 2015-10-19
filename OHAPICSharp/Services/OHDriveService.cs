@@ -67,11 +67,21 @@ namespace OHAPICSharp
                 json = await response.Content.ReadAsStringAsync();
             }
 
-            return JsonConvert.DeserializeObject<OHDrive>(json);
+            var tempDrive = JsonConvert.DeserializeObject<dynamic>(json);
+            var drive = JsonConvert.DeserializeObject<OHDrive>(json);
+
+            if (tempDrive.readers != null)
+                drive.Readers = tempDrive.readers.ToString().Split(' ');
+            if (tempDrive.tags != null)
+                drive.Tags = tempDrive.tags.ToString().Split(' ');
+            if (tempDrive.avoid != null)
+                drive.Readers = tempDrive.avoid.ToString().Split(' ');
+
+            return drive;
         }
 
         //Create a Drive 
-        public async Task<OHDrive> Create(string name, long size)
+        public async Task<OHDrive> Create(string name, long size, OHDriveOptions driveOptions = null)
         {
             string json = "";
             var driveDict = new Dictionary<string, string>();
@@ -82,6 +92,10 @@ namespace OHAPICSharp
 
             driveDict["name"] = name;
             driveDict["size"] = size.ToString();
+            if (driveOptions != null)
+            {
+                driveDict = SetDriveOptions(driveDict, driveOptions);
+            }
 
             json = JsonConvert.SerializeObject(driveDict);
             var content = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
@@ -89,6 +103,36 @@ namespace OHAPICSharp
             using (HttpClient client = OHUtilities.CreateClient(userID, secretKey))
             {
                 var url = urlBase + "create";
+                var response = await client.PostAsync(url, content);
+                json = await response.Content.ReadAsStringAsync();
+            }
+
+            return JsonConvert.DeserializeObject<OHDrive>(json);
+        }
+
+        //Set Drive options 
+        public async Task<OHDrive> Set(string driveID, string name, long size, OHDriveOptions driveOptions = null)
+        {
+            string json = "";
+            var driveDict = new Dictionary<string, string>();
+
+            //name and size are required
+            if (string.IsNullOrEmpty(name) || size == 0)
+                throw new Exception("Name and Size are required for drive creation");
+
+            driveDict["name"] = name;
+            driveDict["size"] = size.ToString();
+            if (driveOptions != null)
+            {
+                driveDict = SetDriveOptions(driveDict, driveOptions);
+            }
+
+            json = JsonConvert.SerializeObject(driveDict);
+            var content = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+
+            using (HttpClient client = OHUtilities.CreateClient(userID, secretKey))
+            {
+                var url = string.Format("{0}{1}/set", urlBase, driveID);
                 var response = await client.PostAsync(url, content);
                 json = await response.Content.ReadAsStringAsync();
             }
@@ -111,6 +155,23 @@ namespace OHAPICSharp
                 return true;
             else
                 return false;
+        }
+
+        // Private routines 
+        private Dictionary<string, string> SetDriveOptions(Dictionary<string, string> driveDict, OHDriveOptions driveOptions)
+        {
+            if (!string.IsNullOrEmpty(driveOptions.ClaimType))
+                driveDict["claim:type"] = driveOptions.ClaimType;
+            if (driveOptions.Readers != null && driveOptions.Readers.Any())
+                driveDict["readers"] = string.Join(" ", driveOptions.Readers);
+            if (driveOptions.Tags != null && driveOptions.Tags.Any())
+                driveDict["tags"] = string.Join(" ", driveOptions.Tags);
+            if (driveOptions.Avoids != null && driveOptions.Avoids.Any())
+                driveDict["avoid"] = string.Join(" ", driveOptions.Avoids);
+            if (!string.IsNullOrEmpty(driveOptions.Encryption))
+                driveDict["encryption:cipher"] = driveOptions.Encryption;
+
+            return driveDict;
         }
     }
 }

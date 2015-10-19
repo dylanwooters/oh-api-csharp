@@ -31,9 +31,20 @@ namespace OHAPICSharp
         public long ReadBytes { get; set; }
         [JsonProperty(PropertyName = "read:requests")]
         public long ReadRequests { get; set; }
-        //Leaving these out for now, since they are not returned in testing
-        //public List<string> Readers { get; set; }
-        //public List<string> Tags { get; set; }
-        //public List<string> Avoids { get; set; }
+        [JsonIgnore]
+        public string[] Readers { get; set; }
+        [JsonIgnore]
+        public string[] Tags { get; set; }
+        [JsonIgnore]
+        public string[] Avoids { get; set; }
+    }
+
+    public class OHDriveOptions
+    {
+        public string ClaimType { get; set; }
+        public string[] Readers { get; set; }
+        public string[] Tags { get; set; }
+        public string[] Avoids { get; set; }
+        public string Encryption { get; set; }
     }
 }

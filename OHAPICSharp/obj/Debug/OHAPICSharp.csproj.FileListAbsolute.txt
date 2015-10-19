@@ -1,4 +1,3 @@
-E:\Dropbox\Work\Clients\Series Digital\OH\OHAPICSharp\OHAPICSharp\obj\Debug\OHAPICSharp.csprojResolveAssemblyReference.cache
 E:\Dropbox\Work\Clients\Series Digital\OH\OHAPICSharp\OHAPICSharp\bin\Debug\OHAPICSharp.dll
 E:\Dropbox\Work\Clients\Series Digital\OH\OHAPICSharp\OHAPICSharp\bin\Debug\OHAPICSharp.pdb
 E:\Dropbox\Work\Clients\Series Digital\OH\OHAPICSharp\OHAPICSharp\bin\Debug\Newtonsoft.Json.dll
