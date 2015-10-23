@@ -84,7 +84,7 @@ namespace OHAPICSharp
             driveDict["size"] = size.ToString();
             if (driveOptions != null)
             {
-                driveDict = SetDriveOptions(driveDict, driveOptions);
+                driveDict = SetDriveOptions(driveDict, driveOptions, false);
             }
 
             json = JsonConvert.SerializeObject(driveDict);
@@ -114,7 +114,7 @@ namespace OHAPICSharp
             driveDict["size"] = size.ToString();
             if (driveOptions != null)
             {
-                driveDict = SetDriveOptions(driveDict, driveOptions);
+                driveDict = SetDriveOptions(driveDict, driveOptions, true);
             }
 
             json = JsonConvert.SerializeObject(driveDict);
@@ -127,7 +127,7 @@ namespace OHAPICSharp
                 json = await response.Content.ReadAsStringAsync();
             }
 
-            return JsonConvert.DeserializeObject<OHDrive>(json);
+            return DeserializeDrive(json);
         }
 
         //Delete a Drive 
@@ -148,7 +148,7 @@ namespace OHAPICSharp
         }
 
         // Private routines 
-        private Dictionary<string, string> SetDriveOptions(Dictionary<string, string> driveDict, OHDriveOptions driveOptions)
+        private Dictionary<string, string> SetDriveOptions(Dictionary<string, string> driveDict, OHDriveOptions driveOptions, bool isSetRequest)
         {
             if (!string.IsNullOrEmpty(driveOptions.ClaimType))
                 driveDict["claim:type"] = driveOptions.ClaimType;
@@ -156,11 +156,13 @@ namespace OHAPICSharp
                 driveDict["readers"] = string.Join(" ", driveOptions.Readers);
             if (driveOptions.Tags != null && driveOptions.Tags.Any())
                 driveDict["tags"] = string.Join(" ", driveOptions.Tags);
-            if (driveOptions.Avoids != null && driveOptions.Avoids.Any())
-                driveDict["avoid"] = string.Join(" ", driveOptions.Avoids);
-            if (!string.IsNullOrEmpty(driveOptions.Encryption))
-                driveDict["encryption:cipher"] = driveOptions.Encryption;
-
+            if (!isSetRequest)
+            {
+                if (driveOptions.Avoids != null && driveOptions.Avoids.Any())
+                    driveDict["avoid"] = string.Join(" ", driveOptions.Avoids);
+                if (!string.IsNullOrEmpty(driveOptions.Encryption))
+                    driveDict["encryption:cipher"] = driveOptions.Encryption;
+            }
             return driveDict;
         }
 
@@ -178,5 +180,23 @@ namespace OHAPICSharp
 
             return drive;
         }
+
+        //This might have to wait until version 2, since I cannot get the image call to work
+        //Image a Drive from another drive
+        //public async Task<bool> Image(string sourceDriveID, string targetDriveID, string conversion)
+        //{
+        //    HttpResponseMessage response;
+
+        //    using (HttpClient client = OHUtilities.CreateClient(userID, secretKey))
+        //    {
+        //        var url = string.Format("{0}{1}/image/{2}/{3}", urlBase, targetDriveID, sourceDriveID, conversion);
+        //        response = await client.PostAsync(url, null);
+        //    }
+
+        //    if (response.StatusCode == HttpStatusCode.NoContent)
+        //        return true;
+        //    else
+        //        return false;
+        //}
     }
 }
