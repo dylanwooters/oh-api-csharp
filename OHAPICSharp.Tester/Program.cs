@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace OHAPICSharp.Tester
 {
+    //Test console app for API 
     class Program
     {
         static void Main(string[] args)
