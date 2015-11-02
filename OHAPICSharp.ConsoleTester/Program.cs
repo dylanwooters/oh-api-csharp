@@ -16,10 +16,10 @@ namespace OHAPICSharp.ConsoleTester
             var drives = driveService.GetAll().Result;
             var drive = drives.FirstOrDefault(x => x.Name == "oh-api-test");
 
-            var driveOptions = new OHDriveOptions();
+            //var driveOptions = new OHDriveOptions();
             //driveOptions.Encryption = "aes-xts-plain";
-            driveOptions.Tags = new[] { "another-test-tag", "oh-api" };
-            drive = driveService.Set(drive.DriveID, drive.Name, 1073741824, driveOptions).Result;
+            //driveOptions.Tags = new[] { "another-test-tag", "oh-api" };
+            //drive = driveService.Set(drive.DriveID, drive.Name, 1073741824, driveOptions).Result;
 
             var deleteOk = driveService.Destroy(drive.DriveID).Result;
 
