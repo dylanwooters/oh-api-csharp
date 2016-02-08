@@ -12,41 +12,27 @@ namespace OHAPICSharp.ConsoleTester
     {
         static void Main(string[] args)
         {
-            var driveService = new OHDriveService();
-            var drives = driveService.GetAll().Result;
-            var drive = drives.FirstOrDefault(x => x.Name == "oh-api-test");
-
-            //var driveOptions = new OHDriveOptions();
-            //driveOptions.Encryption = "aes-xts-plain";
-            //driveOptions.Tags = new[] { "another-test-tag", "oh-api" };
-            //drive = driveService.Set(drive.DriveID, drive.Name, 1073741824, driveOptions).Result;
-
-            var deleteOk = driveService.Destroy(drive.DriveID).Result;
-
-            if (deleteOk)
-                Console.WriteLine("Drive created and image addded.");
-            else
-                Console.WriteLine("There was a problem.");
+            var drive = CreateDrive();
+            Console.WriteLine(drive.Name + " created successfully.");
         }
 
         public static List<OHDrive> GetAllDrives()
         {
             var driveService = new OHDriveService();
-
+            
             return driveService.GetAll().Result;
         }
 
         public static OHDrive CreateDrive()
         {
             var driveService = new OHDriveService();
-
+            
             return driveService.Create("oh-api-test", 536870912, null).Result;
         }
 
         public static OHDrive SetDrive()
         {
             var driveService = new OHDriveService();
-
             var driveOptions = new OHDriveOptions();
             driveOptions.ClaimType = "exclusive";
             driveOptions.Encryption = "none";
@@ -61,9 +47,8 @@ namespace OHAPICSharp.ConsoleTester
         {
             var driveService = new OHDriveService();
             var drives = driveService.GetAll().Result;
-
             var driveToDelete = drives.FirstOrDefault(x => x.Name == "oh-api-test");
-
+            
             return driveService.Destroy(driveToDelete.DriveID).Result;
         }
     }

@@ -13,7 +13,7 @@ namespace OHAPICSharp.Tests
         public void GetAll()
         {
             var drives = new OHDriveService().GetAll().Result;
-            Assert.AreEqual<int>(3, drives.Count);
+            Assert.AreEqual<int>(1, drives.Count);
         }
         [TestMethod]
         public void Get()
