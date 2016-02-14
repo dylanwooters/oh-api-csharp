@@ -4,8 +4,6 @@ using OHAPICSharp;
 
 namespace OHAPICSharp.Tests
 {
-    //Unit tests require that a UserId and Secret Key are present in the project's config file.
-
     [TestClass]
     public class OHDriveServiceTests
     {

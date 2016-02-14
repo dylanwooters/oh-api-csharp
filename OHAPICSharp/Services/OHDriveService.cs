@@ -12,24 +12,12 @@ using Newtonsoft.Json;
 
 namespace OHAPICSharp
 {
-    public class OHDriveService
+    public class OHDriveService : OHService
     {
-        private string userID;
-        private string secretKey;
         public const string urlBase = "drives/";
 
-        //Constructors
-        public OHDriveService()
-        {
-            this.userID = ConfigurationManager.AppSettings["OHUserId"];
-            this.secretKey = ConfigurationManager.AppSettings["OHSecretKey"];
-        }
-
-        public OHDriveService(string userID, string secretKey)
-        {
-            this.userID = userID;
-            this.secretKey = secretKey;
-        }
+        public OHDriveService() : base() { }
+        public OHDriveService(string UserID, string SecretKey) : base(UserID, SecretKey) { }
 
         //Return a List of Drives 
         public async Task<List<OHDrive>> GetAll()
@@ -37,7 +25,7 @@ namespace OHAPICSharp
             string json = "";
             List<OHDrive> drives = new List<OHDrive>();
 
-            using (HttpClient client = OHUtilities.CreateClient(userID, secretKey))
+            using (HttpClient client = OHUtilities.CreateClient(UserID, SecretKey))
             {
                 var url = urlBase + "list";
                 var response = await client.GetAsync(url);
@@ -60,7 +48,7 @@ namespace OHAPICSharp
         {
             string json = "";
 
-            using (HttpClient client = OHUtilities.CreateClient(userID, secretKey))
+            using (HttpClient client = OHUtilities.CreateClient(UserID, SecretKey))
             {
                 var url = string.Format("{0}{1}/info/full", urlBase, driveID);
                 var response = await client.GetAsync(url);
@@ -90,7 +78,7 @@ namespace OHAPICSharp
             json = JsonConvert.SerializeObject(driveDict);
             var content = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
 
-            using (HttpClient client = OHUtilities.CreateClient(userID, secretKey))
+            using (HttpClient client = OHUtilities.CreateClient(UserID, SecretKey))
             {
                 var url = urlBase + "create";
                 var response = await client.PostAsync(url, content);
@@ -120,7 +108,7 @@ namespace OHAPICSharp
             json = JsonConvert.SerializeObject(driveDict);
             var content = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
 
-            using (HttpClient client = OHUtilities.CreateClient(userID, secretKey))
+            using (HttpClient client = OHUtilities.CreateClient(UserID, SecretKey))
             {
                 var url = string.Format("{0}{1}/set", urlBase, driveID);
                 var response = await client.PostAsync(url, content);
@@ -135,7 +123,7 @@ namespace OHAPICSharp
         {
             HttpResponseMessage response;
 
-            using (HttpClient client = OHUtilities.CreateClient(userID, secretKey))
+            using (HttpClient client = OHUtilities.CreateClient(UserID, SecretKey))
             {
                 var url = string.Format("{0}{1}/destroy", urlBase, driveID);
                 response = await client.PostAsync(url, null);
@@ -187,7 +175,7 @@ namespace OHAPICSharp
         //{
         //    HttpResponseMessage response;
 
-        //    using (HttpClient client = OHUtilities.CreateClient(userID, secretKey))
+        //    using (HttpClient client = OHUtilities.CreateClient(UserID, SecretKey))
         //    {
         //        var url = string.Format("{0}{1}/image/{2}/{3}", urlBase, targetDriveID, sourceDriveID, conversion);
         //        response = await client.PostAsync(url, null);

@@ -12,10 +12,12 @@ namespace OHAPICSharp.ConsoleTester
     {
         static void Main(string[] args)
         {
-            var drive = CreateDrive();
-            Console.WriteLine(drive.Name + " created successfully.");
+            var serverService = new OHServerService();
+            var servers = serverService.GetAll().Result;
+            Console.WriteLine(servers[0].DriveID);
         }
 
+        //Drive tests
         public static List<OHDrive> GetAllDrives()
         {
             var driveService = new OHDriveService();

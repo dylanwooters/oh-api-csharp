@@ -49,9 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\OHDrive.cs" />
+    <Compile Include="Entities\OHServer.cs" />
+    <Compile Include="Services\OHService.cs" />
     <Compile Include="Services\OHDriveService.cs" />
     <Compile Include="OHUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\OHServerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
