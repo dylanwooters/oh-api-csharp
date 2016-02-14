@@ -1,5 +1,5 @@
 # oh-api-csharp
-OHAPICSharp is a C# wrapper for the [Open Hosting API](http://openhosting.com/api/). It is a work in progress. Currently I have the drive service implemented, which gives users easy access to the drives in their accounts. Next up are servers and resources.
+oh-api-csharp is a C# wrapper for the [Open Hosting API](http://openhosting.com/api/). It enables you to perform CRUD actions against the main components of the Open Hosting cloud platform: drives, servers, and resources. Using the library you could, for example, dynamically increase the cpu and memory of a specific server, increase the size of an ssd, or spin up new servers as needed.
 
 The Open Hosting API is itself an implementation of the [ElasticStack API](http://api-doc.elastichosts.com/). Its documentation is slightly more complete.
 
@@ -8,7 +8,7 @@ Also check out the [Ruby implementation](https://code.seriesdigital.com/lee/open
 ## Usage
 
 1. Obtain your Open Hosting API credentials. They can be found by logging in at [Open Hosting](https://east1.openhosting.com/accounts/login/), clicking on Profile, and then clicking on the Authentication tab.
-2. Add your OH credentials to your projects app.config.
+2. Add your OH credentials to your project's app.config.
 
    ```
    <add key="OHUserId" value="[your-user-id]" />
@@ -16,3 +16,6 @@ Also check out the [Ruby implementation](https://code.seriesdigital.com/lee/open
    ```
 
 3. See the ConsoleTester application for basic usage examples.
+
+## Help Out
+oh-api-csharp is a work in progress. I have the drives component complete, and I am current working on [servers](https://github.com/dylanwooters/oh-api-csharp/tree/servers). Feel free to fork the repo and contribute!
