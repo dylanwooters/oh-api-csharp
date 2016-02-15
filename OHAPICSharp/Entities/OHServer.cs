@@ -10,44 +10,50 @@ namespace OHAPICSharp
     public class OHServer
     {
         [JsonProperty(PropertyName = "server")]
+        public string ServerID { get; set; }
+        [JsonProperty(PropertyName = "ide:0:0")]
         public string DriveID { get; set; }
-        [JsonProperty(PropertyName = "name")]
-        public int Name { get; set; }
-        [JsonProperty(PropertyName = "status")]
-        public string Status { get; set; }
         [JsonProperty(PropertyName = "user")]
         public string UserID { get; set; }
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
+        [JsonProperty(PropertyName = "status")]
+        public string Status { get; set; }
         [JsonProperty(PropertyName = "cpu")]
         public int CPU { get; set; }
-        [JsonProperty(PropertyName = "boot")]
-        public int Boot { get; set; }
         [JsonProperty(PropertyName = "mem")]
         public int Memory { get; set; }
-
-          //"ide:0:0": "515b36ec-a674-46a5-9778-00c2b80fee59",
-          //"ide:0:0:read:bytes": "2068082688",
-          //"ide:0:0:read:requests": "135140",
-          //"ide:0:0:write:bytes": "109416628224",
-          //"ide:0:0:write:requests": "9072457",
-          //"nic:0:dhcp": "69.25.178.8",
-          //"nic:0:dhcp:ip": "69.25.178.8",
-          //"nic:0:ip": "69.25.178.8",
-          //"nic:0:mac": "6a:cc:d6:a2:8e:e3",
-          //"nic:0:model": "e1000",
-          //"nic:0:rx:bytes": 20022431991,
-          //"nic:0:rx:packets": 81171700,
-          //"nic:0:tx:bytes": 13452547287,
-          //"nic:0:tx:packets": 79487515,
-          //"password": "Ygqk8kkQ",
-          //"persistent": "true",
-          //"server": "5336e65b-6344-42fd-9521-1accd6a28ee3",
-          //"smp": "auto",
-          //"smp:cores": 1,
-          //"started": 1445824156,
-          //"status": "active",
-          //"type": "vm",
-          //"user": "4b3bfc4f-32f3-4a92-bb5e-83624dd6a310",
-          //"vnc": "auto",
-          //"vnc:ip": "69.25.178.8"
+        [JsonProperty(PropertyName = "nic:0:ip")]
+        public string IP { get; set; }
+        [JsonProperty(PropertyName = "nic:0:mac")]
+        public string MAC { get; set; }
+        [JsonProperty(PropertyName = "ide:0:0:write:bytes")]
+        public long WriteBytes { get; set; }
+        [JsonProperty(PropertyName = "ide:0:0:write:requests")]
+        public long WriteRequests { get; set; }
+        [JsonProperty(PropertyName = "ide:0:0:read:bytes")]
+        public long ReadBytes { get; set; }
+        [JsonProperty(PropertyName = "ide:0:0:read:requests")]
+        public long ReadRequests { get; set; }
+        [JsonProperty(PropertyName = "nic:0:rx:bytes")]
+        public long BytesReceived { get; set; }
+        [JsonProperty(PropertyName = "nic:0:rx:packets")]
+        public long PacketsReceived { get; set; }
+        [JsonProperty(PropertyName = "nic:0:tx:bytes")]
+        public long BytesTransferred { get; set; }
+        [JsonProperty(PropertyName = "nic:0:tx:packets")]
+        public long PacketsTransferred { get; set; }
+        [JsonProperty(PropertyName = "password")]
+        public string Password { get; set; }
+        [JsonProperty(PropertyName = "persistent")]
+        public string Persistent { get; set; }
+        [JsonProperty(PropertyName = "smp:cores")]
+        public string Cores { get; set; }
+        [JsonProperty(PropertyName = "started")]
+        public int StartDateUTC { get; set; }
+        [JsonProperty(PropertyName = "vnc:ip")]
+        public string VNCIP { get; set; }
+        [JsonProperty(PropertyName = "type")]
+        public string Type { get; set; }
     }
 }

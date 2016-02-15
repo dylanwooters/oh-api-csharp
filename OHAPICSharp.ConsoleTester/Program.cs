@@ -12,7 +12,7 @@ namespace OHAPICSharp.ConsoleTester
     {
         static void Main(string[] args)
         {
-            var serverService = new OHServerService();
+            var serverService = new OHServerService("","s");
             var servers = serverService.GetAll().Result;
             Console.WriteLine(servers[0].DriveID);
         }
